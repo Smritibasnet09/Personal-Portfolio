@@ -2,7 +2,7 @@ import React from 'react';
 import WeatherAppImg from "./assets/Weatherapp.png";
 import HMSIMG from "./assets/HMS.png";
 import FraudImg from "./assets/Fraud.png";
-import MusicImg from "./assets/Music.png";
+import MusicImg from "./assets/music.png";
 import NyanoImg from "./assets/Nyano.png";
 
 const Projects = ({ sectionNumber = "02" }) => {
