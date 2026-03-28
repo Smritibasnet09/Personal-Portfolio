@@ -1,5 +1,5 @@
 import React from 'react';
-import Smriti from '../src/assets/Smriti.png'; 
+import Smriti from './assets/Smriti.png';
 
 const Hero = () => {
   return (
@@ -16,7 +16,7 @@ const Hero = () => {
               Hi, I'm <span className="hero__name">Smriti Basnet</span>
             </h1>
             <div className="hero__subtitle">
-              Full Stack Developer
+              AI Engineer
             </div>
             <p className="hero__description">
               Crafting digital experiences that blend design, functionality, and purpose. Ready to build something remarkable with you.
