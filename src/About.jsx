@@ -1,82 +1,101 @@
 import React from 'react';
-import difImg from "./assets/dif.png";
+import DifImg from './assets/dif.png';
+import { Award, BookOpen, Terminal, Sparkles, GraduationCap, Cpu } from 'lucide-react';
 
-const About = () => {
+const HIGHLIGHTS = [
+  'BSc (Hons) Computer Science with AI',
+  'Sunway College Kathmandu (BCU UK)',
+  'SSRC AI Club Executive Member',
+  'TechSprint 2026 National Hackathon Winner',
+  'Python • FastAPI • Django • PyTorch',
+];
+
+export default function About() {
   return (
-    <section id="about" className="about">
-      <div className="stars">
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="star"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
-            }}
-          />
-        ))}
+    <section id="about" className="about-viewport-section" aria-label="About Me">
+      <div className="about-glow-orb" />
+
+      {/* Top Tracked Title */}
+      <div className="section-header-tracked">
+        <span className="tracked-eyebrow">ABOUT ME</span>
       </div>
 
-      <div className="about__container">
-        <div className="about__content">
-          <div className="about__image-section">
-            <div className="about__image-wrapper">
-              <div className="about__image-glow"></div>
-              <div className="about__image-container">
-                <div className="about__image-placeholder">
-                  <img 
-                    src= {difImg}
-                    alt="Smriti Basnet" 
-                    className="about__profile-img"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
-                    }}
-                  />
-                  <div className="about__image-fallback">👩‍💻</div>
-                </div>
+      <div className="about-grid-layout">
+        {/* Left Side: AI Ecosystem Hologram Card & Credentials */}
+        <div className="about-avatar-column">
+          <div className="about-visual-card">
+            <div className="about-visual-glow" />
+            <div className="about-visual-frame">
+              <img
+                src={DifImg}
+                alt="AI Ecosystem & Intelligence Architecture"
+                className="about-visual-img"
+                loading="lazy"
+              />
+              <div className="about-visual-overlay">
+                <span className="about-visual-label">
+                  <Cpu size={14} className="text-purple" />
+                  <span>Applied AI &amp; Web Architectures</span>
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="about__text-section">
-            <div className="about__section-number">01.</div>
-            
-            <h2 className="about__title">
-              About Me
-              <div className="about__title-underline"></div>
-            </h2>
-
-            <div className="about__description">
-              <p>
-                Hi there! I'm <span className="about__highlight-name">Smriti Basnet</span>, a{' '}
-                <span className="about__highlight">tech enthusiast & student</span> who loves exploring coding, projects, and creative ideas. 
-                 I'm currently studying Bsc. Cs with AI in Sunway Collge in 3rd Semester.
-              </p>
-              
-              <p>
-                I’m also part of an <a href="#" className="about__link">AI Club</a> where I dive into artificial intelligence topics, share ideas, 
-                and keep improving my skills every day. I enjoy experimenting with different technologies and making projects that are both fun and useful. 
-              </p>
-              
-              <p>
-                My journey is just beginning, but I’m always excited to learn, take on challenges, and grow step by step as a developer and innovator. 
-                Whether it’s coding, problem-solving, or building something new, I’m ready to explore more and more.
-              </p>
-              
-              <p>
-                In short, I’m curious, creative, and passionate about tech  and I believe this is just the start of something big!
-              </p>
-            </div>
+          <div className="about-tags-row">
+            {HIGHLIGHTS.map((tag) => (
+              <span key={tag} className="tech-badge-glow">
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
 
-       
+        {/* Right Side: Narrative Copy */}
+        <div className="about-text-column">
+          <div className="about-copy-card">
+            <p className="about-lead-paragraph">
+              I am a developer focused on the <strong>AI ecosystem</strong> and <strong>modern web development</strong>. 
+              I combine full-stack expertise <em>(Python, FastAPI, Django, React)</em> with artificial intelligence implementations 
+              to build intelligent agents, machine learning pipelines, and conversational assistants using modern technology.
+            </p>
+
+            <p className="about-body-paragraph">
+              I have experience handling projects ranging from end-to-end MLOps architectures with automated drift 
+              monitoring to intelligent health platforms with Retrieval-Augmented Generation (RAG). To me, code is an instrument 
+              for creating meaningful solutions, and AI is a canvas for limitless innovation.
+            </p>
+
+            <p className="about-body-paragraph">
+              Currently pursuing my <strong>BSc (Hons) in Computer Science with AI</strong> at Sunway College Kathmandu 
+              (affiliated with Birmingham City University, UK), I also actively serve as an Executive Member of the 
+              <strong> SSRC AI Club</strong>, organizing technical workshops and mentoring peers.
+            </p>
+
+            {/* Quick Feature Pillars */}
+            <div className="about-pillars-grid">
+              <div className="pillar-item">
+                <div className="pillar-icon">
+                  <Terminal size={18} />
+                </div>
+                <div>
+                  <h4 className="pillar-title">Clean Architectures</h4>
+                  <p className="pillar-desc">Production-grade APIs, containerized pipelines &amp; modular code.</p>
+                </div>
+              </div>
+
+              <div className="pillar-item">
+                <div className="pillar-icon">
+                  <Sparkles size={18} />
+                </div>
+                <div>
+                  <h4 className="pillar-title">Applied AI / ML</h4>
+                  <p className="pillar-desc">Generative AI, RAG, predictive modeling &amp; edge inference.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
-};
-
-export default About;
+}

@@ -1,121 +1,114 @@
-import React from 'react';
-import ImeImg from "./assets/Ime.png";
-import KalpaImg from "./assets/Kalpa.jpeg";
-import NariImg from "./assets/Nari.png";
-import AiImg from "./assets/Ai.jpeg";
-import GDImg from "./assets/GD.png";
+import React, { useState } from 'react';
 
-const Experience = ({ sectionNumber = "03" }) => {
-  const achievements = [
-    {
-      id: 1,
-      title: "Global IME Hackathon Participant",
-      image: ImeImg,
-      hasPlayButton: true,
-      description: "Participated on May 1–2, showcasing innovative tech solutions."
-    },
-    {
-      id: 2,
-      title: "Executive Member - AI Club",
-      image: AiImg,
-      hasPlayButton: true,
-      description: "Serving as Executive Member at AI Club, SSRC Sunway College."
-    },
-    {
-      id: 3,
-      title: "Volunteer - Sachet Naari",
-      image: NariImg,
-      hasPlayButton: true,
-      description: "Contributed as a volunteer in Sachet Naari, awarded with a certificate."
-    },
-    {
-      id: 4,
-      title: "Volunteer - Kalpavriksha",
-      image: KalpaImg,
-      hasPlayButton: true,
-      description: "Volunteered in Kalpavriksha, supporting community-driven initiatives."
-    }
-  ];
+const TIMELINE_DATA = [
+  {
+    id: 1,
+    role: 'Freelance AI & Full-Stack Developer',
+    org: 'Self-Development & Client Solutions',
+    year: 'NOW',
+    description:
+      'Continuously exploring new technologies, researching advanced AI systems, building predictive pipelines, and pushing the boundaries of what is possible in modern web and intelligent applications.',
+    tags: ['AI Agents', 'RAG Pipelines', 'FastAPI', 'Next.js', 'PyTorch'],
+  },
+  {
+    id: 2,
+    role: 'IT Development Intern',
+    org: 'University Grants Commission (UGC), Nepal',
+    year: '2025',
+    description:
+      'Integrated institutional data operations with modern verification tooling. Supported the central IT department with duplicate record resolution, database sanitation, and reporting workflows.',
+    tags: ['Data Cleaning', 'Verification Systems', 'Excel Analytics', 'Database Quality'],
+  },
+  {
+    id: 3,
+    role: 'Executive Member & AI Coordinator',
+    org: 'AI Club — SSRC Sunway College',
+    year: '2024',
+    description:
+      'Facilitated campus technical study circles, peer workshops on machine learning architectures, and hackathon preparation. Mentored junior students on practical Python & AI applications.',
+    tags: ['Technical Leadership', 'Workshop Coordination', 'Mentorship', 'Community Building'],
+  },
+  {
+    id: 4,
+    role: 'Data Entry & Analytics Specialist',
+    org: 'Dataksha Analytics',
+    year: '2023',
+    description:
+      'Managed client data administration through quality-driven workflows. Maintained relational dataset consistency feeding downstream business intelligence and statistical modeling.',
+    tags: ['Data Auditing', 'Quality Control', 'Data Pipelines', 'Spreadsheet Analytics'],
+  },
+];
+
+export default function Experience() {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <section id="experience" className="experience">
-      {/* Background Stars */}
-      <div className="stars">
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="star"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
-            }}
-          />
-        ))}
+    <section id="experience" className="career-viewport-section" aria-label="Career and Experience">
+      {/* Glow background ambient */}
+      <div className="career-ambient-glow" />
+
+      {/* Section Title */}
+      <div className="career-header-center">
+        <h2 className="career-main-title">
+          My career &amp; <span className="title-purple-gradient">experience</span>
+        </h2>
+        <p className="career-subtext">
+          A progression of hands-on software development, institutional operations, and community leadership.
+        </p>
       </div>
 
-      <div className="experience__container">
-        <div className="experience__header">
-          <div className="experience__section-number">{sectionNumber}.</div>
-          <h2 className="experience__title">
-            My Experience
-            <div className="experience__title-underline"></div>
-          </h2>
+      {/* 3-Column Neon Timeline Layout */}
+      <div className="timeline-neon-container">
+        {/* Central Vertical Neon Line */}
+        <div className="neon-vertical-line">
+          <div className="neon-line-track" />
+          <div 
+            className="neon-line-bead"
+            style={{
+              top: hoveredIndex !== null ? `${(hoveredIndex + 0.5) * 25}%` : '75%',
+            }}
+          />
         </div>
 
-        <div className="experience__content">
-          <div className="experience__job-info">
-            <div className="experience__company-timeline">
-              <div className="experience__timeline-line"></div>
-              <div className="experience__timeline-dot"></div>
-            </div>
-
-            <div className="experience__job-details">
-              <div className="experience__company-info">
-                <h3 className="experience__company-name">Graphics Designer</h3>
-                <p className="experience__job-type">Freelancer</p>
-              </div>
-
-              <div className="experience__job-description">
-                <div className="experience__company-logo">
-                  <img src={GDImg} alt="Graphics Designing" />
+        {/* Timeline Rows */}
+        <div className="timeline-rows-list">
+          {TIMELINE_DATA.map((item, index) => {
+            const isHovered = hoveredIndex === index;
+            return (
+              <div
+                key={item.id}
+                className={`timeline-row-item ${isHovered ? 'row-active' : ''}`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                {/* Left Column: Role & Organization */}
+                <div className="timeline-col-role">
+                  <h3 className="timeline-role-name">{item.role}</h3>
+                  <span className="timeline-org-name">{item.org}</span>
                 </div>
-                <div className="experience__job-text">
-                  <h4 className="experience__job-title">Graphics Designer</h4>
-                  <p className="experience__job-desc">
-                    Created professional designs for events, social media, and projects using tools like Canva 
-                    and Photoshop. Focused on clean, creative, and impactful visual communication.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="experience__achievements-grid">
-            {achievements.map((achievement) => (
-              <div key={achievement.id} className="experience__achievement-card">
-                <div className="experience__achievement-image">
-                  <img src={achievement.image} alt={achievement.title} />
-                  {achievement.hasPlayButton && (
-                    <div className="experience__play-button">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                  )}
+                {/* Center Column: Huge Bold Year */}
+                <div className="timeline-col-year">
+                  <span className="timeline-year-text">{item.year}</span>
+                  <div className="timeline-center-node" />
                 </div>
-                <div className="experience__achievement-content">
-                  <h4 className="experience__achievement-title">{achievement.title}</h4>
-                  <p className="experience__achievement-desc">{achievement.description}</p>
+
+                {/* Right Column: Description & Tags */}
+                <div className="timeline-col-desc">
+                  <p className="timeline-desc-text">{item.description}</p>
+                  <div className="timeline-tags-wrap">
+                    {item.tags.map((tag) => (
+                      <span key={tag} className="timeline-pill-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
-};
-
-export default Experience;
+}

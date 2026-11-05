@@ -1,141 +1,219 @@
-import React from 'react';
-import WeatherAppImg from "./assets/Weatherapp.png";
-import HMSIMG from "./assets/HMS.png";
-import FraudImg from "./assets/Fraud.png";
-import MusicImg from "./assets/music.png";
-import NyanoImg from "./assets/Nyano.png";
+import React, { useState } from 'react';
+import { Github, ExternalLink, Sparkles, Cpu, Layers, Radio, HeartPulse, ShieldAlert, CloudSun, Music } from 'lucide-react';
 
-const Projects = ({ sectionNumber = "02" }) => {
-  const projects = [
-    {
-      id: 1,
-      title: "Weather App",
-      description: "A simple weather forecasting app that shows live weather data using APIs ☀️🌧️",
-      image: WeatherAppImg,
-      gradient: "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)",
-      links: {
-        github: "https://github.com/Smritibasnet09/Chuk",
-        demo: "https://github.com/Smritibasnet09/Chuk"
-      }
-    },
-    {
-      id: 2,
-      title: "Fraud Detection System",
-      description: "AI-powered fraud detection project that identifies suspicious transactions and prevents risks 🔐",
-      image: FraudImg,
-      gradient: "linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)",
-      links: {
-        github: "https://github.com/Smritibasnet09/Big_Mart_Prediction-Using-Machine-Learning",
-        demo: "https://github.com/Smritibasnet09/Big_Mart_Prediction-Using-Machine-Learning"
-      }
-    },
-    {
-      id: 3,
-      title: "Music Suggestion App",
-      description: "An AI-powered music app that suggests songs and playlists based on mood and preferences 🎵✨",
-      image: MusicImg,
-      gradient: "linear-gradient(135deg, #ef4444 0%, #f59e0b 100%)",
-      links: {
-        github: "https://github.com/Smritibasnet09/Book-Recommendation",
-        demo: "https://github.com/Smritibasnet09/Book-Recommendation"
-      }
-    },
-    {
-      id: 4,
-      title: "Nyano Kokh",
-      description: "A cultural-local project promoting Nepali traditions, food, and awareness for communities 🇳🇵🔥",
-      image: NyanoImg,
-      gradient: "linear-gradient(135deg, #16a34a 0%, #84cc16 100%)",
-      links: {
-        github: "https://github.com/Smritibasnet09/Nyano_Kokh",
-        demo: "https://github.com/Smritibasnet09/Nyano_Kokh"
-      }
-    },
-    {
-      id: 5,
-      title: "VisionAR — TechSprint Winner",
-      description: "Award-winning AR project built for TechSprint hackathon. Immersive augmented reality experience 🏆🥽",
-      image: HMSIMG,
-      gradient: "linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)",
-      links: {
-        github: "https://github.com/Smritibasnet09/TechSprint_visionary_AR",
-        demo: "https://github.com/Smritibasnet09/TechSprint_visionary_AR"
-      }
-    },
-    {
-      id: 6,
-      title: "Grocery Store (PHP)",
-      description: "A full-stack grocery store management system built with PHP — products, cart & admin panel 🛒",
-      image: FraudImg,
-      gradient: "linear-gradient(135deg, #f97316 0%, #eab308 100%)",
-      links: {
-        github: "https://github.com/Smritibasnet09/Grocery_Store_php",
-        demo: "https://github.com/Smritibasnet09/Grocery_Store_php"
-      }
-    }
-  ];
+import NyanoImg from './assets/Nyano.png';
+import HmsImg from './assets/HMS.png';
+import FraudImg from './assets/Fraud.png';
+import WeatherImg from './assets/Weatherapp.png';
+import MusicImg from './assets/music.png';
+import DifImg from './assets/dif.png';
+import AiImg from './assets/Ai.jpeg';
+
+const PROJECTS = [
+  {
+    number: '01',
+    title: 'MeroHisab — Voice AI Assistant',
+    category: 'Voice AI & Conversational LLM',
+    tag: 'AI',
+    tools: 'Python, Speech Recognition, NLP, FastAPI, SQLite, Conversational AI',
+    description:
+      'A voice-based AI assistant engineered to empower small shopkeepers and local businesses to track daily sales, expenses, and credit ledgers naturally through voice commands.',
+    image: DifImg,
+    github: 'https://github.com/Smritibasnet09/MeroHisab',
+    icon: <Cpu size={16} />,
+  },
+  {
+    number: '02',
+    title: 'Nyano Kakh — IoT Infant Care',
+    category: 'IoT & Embedded Healthcare',
+    tag: 'IoT',
+    tools: 'Arduino, ESP32, DHT11 Sensors, Python, Real-Time Alerting, Automated Incubator',
+    description:
+      'An affordable IoT-driven infant incubation and distress-monitoring system providing continuous temperature regulation, vital alerts, and automated notifications for infant healthcare.',
+    image: NyanoImg,
+    github: 'https://github.com/Smritibasnet09/Nyano_Kokh',
+    icon: <HeartPulse size={16} />,
+  },
+  {
+    number: '03',
+    title: 'Fraud Alert — Financial Anomaly Detection',
+    category: 'Machine Learning & Security',
+    tag: 'AI',
+    tools: 'Python, Scikit-learn, XGBoost, Anomaly Detection, Pandas, Data Preprocessing',
+    description:
+      'A machine learning classification pipeline detecting transactional anomalies and unauthorized credit card operations in real time with high recall and minimized false positives.',
+    image: FraudImg,
+    github: 'https://github.com/Smritibasnet09',
+    icon: <ShieldAlert size={16} />,
+  },
+  {
+    number: '04',
+    title: 'Doclinic — Hospital Management (HMS)',
+    category: 'Full-Stack Web Architecture',
+    tag: 'FullStack',
+    tools: 'Python, Django REST, React, PostgreSQL, Role-Based Access, Appointment Analytics',
+    description:
+      'A comprehensive healthcare administration portal featuring doctor dashboards, patient appointment routing, lab test tracking, and hospital capacity analytics.',
+    image: HmsImg,
+    github: 'https://github.com/Smritibasnet09',
+    icon: <Layers size={16} />,
+  },
+  {
+    number: '05',
+    title: 'WeatherWise — Meteorological Forecast',
+    category: 'Weather Web App & APIs',
+    tag: 'FullStack',
+    tools: 'React, OpenWeatherMap API, JavaScript, Modern Glassmorphic UI, Geolocation',
+    description:
+      'A sleek, responsive glassmorphic weather platform offering multi-day precipitation curves, air quality indices, temperature forecasts, and severe storm advisories.',
+    image: WeatherImg,
+    github: 'https://github.com/Smritibasnet09',
+    icon: <CloudSun size={16} />,
+  },
+  {
+    number: '06',
+    title: 'Smart EV Car Charging System',
+    category: 'IoT Automation & Energy',
+    tag: 'IoT',
+    tools: 'IoT Sensors, Microcontrollers, Python, RFID Authentication, Power Scheduling',
+    description:
+      'An IoT-enabled smart EV charging station featuring sensor-based slot reservation, automated power metering, and safety shutoff mechanisms for efficient electric mobility.',
+    image: AiImg,
+    github: 'https://github.com/Smritibasnet09/Smart-Electric-Car-Charging-System',
+    icon: <Radio size={16} />,
+  },
+  {
+    number: '07',
+    title: 'GrooveSphere — Music Streaming Player',
+    category: 'Frontend & Audio Engineering',
+    tag: 'FullStack',
+    tools: 'React, Web Audio API, Modern Dark UI, State Management, Spotify Design System',
+    description:
+      'A high-performance music streaming web application with audio playback controls, playlist creation, dynamic search filtering, and immersive dark-mode UI.',
+    image: MusicImg,
+    github: 'https://github.com/Smritibasnet09',
+    icon: <Music size={16} />,
+  },
+  {
+    number: '08',
+    title: 'BigMart Sales Prediction',
+    category: 'Predictive Data Science',
+    tag: 'AI',
+    tools: 'Python, Scikit-learn, Random Forest, Feature Engineering, EDA, Jupyter Notebook',
+    description:
+      'Supervised regression pipeline analyzing multi-store retail data across 1,500+ items to forecast supermarket outlet sales and optimize product inventory.',
+    image: null,
+    github: 'https://github.com/Smritibasnet09/Big_Mart_Prediction-Using-Machine-Learning',
+    icon: <Cpu size={16} />,
+  },
+];
+
+const CATEGORIES = [
+  { id: 'All', label: 'All Projects' },
+  { id: 'AI', label: 'AI & Machine Learning' },
+  { id: 'IoT', label: 'IoT & Embedded' },
+  { id: 'FullStack', label: 'Full-Stack Web' },
+];
+
+export default function Project() {
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  const filteredProjects =
+    activeCategory === 'All'
+      ? PROJECTS
+      : PROJECTS.filter((p) => p.tag === activeCategory);
 
   return (
-    <section id="projects" className="projects">
-  
-      <div className="stars">
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="star"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
-            }}
-          />
-        ))}
-      </div>
+    <section id="projects" className="work-viewport-section" aria-label="My Work">
+      <div className="work-glow-orb" />
 
-      <div className="projects__container">
-        <div className="projects__header">
-          <div className="projects__section-number">{sectionNumber}.</div>
-          <h2 className="projects__title">
-             Projects
-            <div className="projects__title-underline"></div>
-          </h2>
-        </div>
-        
-        <div className="projects__grid">
-          {projects.map((project) => (
-            <div key={project.id} className="projects__card" style={{background: project.gradient}}>
-              <div className="projects__card-content">
-                <div className="projects__image">
-                  <img src={project.image} alt={project.title} />
-                </div>
-                
-                <div className="projects__info">
-                  <h3 className="projects__card-title">{project.title}</h3>
-                  <p className="projects__description">{project.description}</p>
-                  
-                  <div className="projects__links">
-                    <a href={project.links.github} className="projects__link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                      </svg>
-                    </a>
-                    <a href={project.links.demo} className="projects__link" aria-label="View Repository" target="_blank" rel="noopener noreferrer">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
-                        <polyline points="15,3 21,3 21,9"/>
-                        <line x1="10" y1="14" x2="21" y2="3"/>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Header */}
+      <div className="work-header-center">
+        <h2 className="work-main-title">
+          My <span className="title-purple-gradient">Work</span>
+        </h2>
+        <p className="work-subtext">
+          Real-world applications, AI pipelines, IoT innovations, and full-stack software from my GitHub codebase.
+        </p>
+
+        {/* Filter Pills */}
+        <div className="work-filter-pills">
+          {CATEGORIES.map(({ id, label }) => (
+            <button
+              key={id}
+              className={`filter-pill-btn ${activeCategory === id ? 'active' : ''}`}
+              onClick={() => setActiveCategory(id)}
+            >
+              {label}
+            </button>
           ))}
         </div>
       </div>
+
+      {/* Projects Grid matching Screenshot 5 */}
+      <div className="work-cards-grid">
+        {filteredProjects.map((item) => (
+          <article key={item.number} className="work-showcase-card">
+            {/* Top row: Number + Category */}
+            <div className="work-card-top-row">
+              <span className="work-giant-number">{item.number}</span>
+              <div className="work-title-group">
+                <h3 className="work-item-name">{item.title}</h3>
+                <span className="work-item-category">
+                  {item.icon}
+                  <span>{item.category}</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Tools and Features */}
+            <div className="work-tools-block">
+              <span className="tools-block-label">Tools &amp; Tech Stack</span>
+              <p className="tools-block-text">{item.tools}</p>
+            </div>
+
+            {/* Project Image Preview (Only if image exists) */}
+            {item.image && (
+              <div className="work-preview-frame">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  loading="lazy"
+                  className="work-preview-img"
+                />
+                <div className="work-preview-overlay">
+                  <a
+                    href={item.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="preview-link-btn"
+                    aria-label={`View ${item.title} on GitHub`}
+                  >
+                    <Github size={18} />
+                    <span>View Repository</span>
+                  </a>
+                </div>
+              </div>
+            )}
+
+            {/* Description */}
+            <p className="work-item-description">{item.description}</p>
+
+            {/* Footer link */}
+            <div className="work-card-footer">
+              <a
+                href={item.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="work-repo-link"
+              >
+                <span>Explore Codebase</span>
+                <ExternalLink size={14} />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
-};
-
-export default Projects;
+}

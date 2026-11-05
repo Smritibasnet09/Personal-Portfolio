@@ -1,28 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Download, Code, Palette, Smartphone, ArrowRight } from 'lucide-react';
+import React from 'react';
+import './App.css';
 
-import About from "./About";
-import Footer from "./Footer";
-import Header from "./Header";
-import Hero from "./Hero";
-import Projects from "./Project";
-import "./App.css";
+import Header from './Header';
+import Hero from './Hero';
+import About from './About';
+import WhatIDo from './WhatIDo';
 import Experience from './Experience';
+import Achievements from './Achievements';
+import Project from './Project';
+import Contact from './Contact';
+import Footer from './Footer';
 
+import SocialSidebar from './components/SocialSidebar';
+import ResumeModal from './components/ResumeModal';
 
-const App = () => {
+export default function App() {
   return (
-    <div>
-      <Header></Header>
-      <Hero></Hero>
-      <About></About>
-      <Projects></Projects>
-      <Experience></Experience>
-      <Footer></Footer>
-      
+    <div className="portfolio-app-root">
+      {/* Fixed UI Overlays */}
+      <Header />
+      <SocialSidebar />
+      <ResumeModal />
 
+      {/* Main Narrative Flow */}
+      <main className="main-viewport-flow">
+        <Hero />
+        <About />
+        <WhatIDo />
+        <Experience />
+        <Achievements />
+        <Project />
+        <Contact />
+      </main>
+
+      <Footer />
     </div>
   );
-};
-
-export default App;
+}
