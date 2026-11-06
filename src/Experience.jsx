@@ -1,113 +1,153 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {
+  Briefcase,
+  Calendar,
+  MapPin,
+  Building2,
+  Code2,
+  GraduationCap,
+  Database,
+} from 'lucide-react';
 
-const TIMELINE_DATA = [
+const EXPERIENCES = [
   {
     id: 1,
     role: 'Freelance AI & Full-Stack Developer',
     org: 'Self-Development & Client Solutions',
-    year: 'NOW',
+    period: '2025 — Present',
+    current: true,
+    location: 'Remote',
+    type: 'Freelance / Engineering',
     description:
       'Continuously exploring new technologies, researching advanced AI systems, building predictive pipelines, and pushing the boundaries of what is possible in modern web and intelligent applications.',
     tags: ['AI Agents', 'RAG Pipelines', 'FastAPI', 'Next.js', 'PyTorch'],
+    icon: <Code2 size={20} />,
   },
   {
     id: 2,
     role: 'IT Development Intern',
     org: 'University Grants Commission (UGC), Nepal',
-    year: '2025',
+    period: '2025',
+    current: false,
+    location: 'Sanothimi, Bhaktapur',
+    type: 'Institutional IT',
     description:
       'Integrated institutional data operations with modern verification tooling. Supported the central IT department with duplicate record resolution, database sanitation, and reporting workflows.',
     tags: ['Data Cleaning', 'Verification Systems', 'Excel Analytics', 'Database Quality'],
+    icon: <Building2 size={20} />,
   },
   {
     id: 3,
     role: 'Executive Member & AI Coordinator',
     org: 'AI Club — SSRC Sunway College',
-    year: '2024',
+    period: '2024 — 2025',
+    current: false,
+    location: 'Maitidevi, Kathmandu',
+    type: 'Leadership & Mentorship',
     description:
       'Facilitated campus technical study circles, peer workshops on machine learning architectures, and hackathon preparation. Mentored junior students on practical Python & AI applications.',
     tags: ['Technical Leadership', 'Workshop Coordination', 'Mentorship', 'Community Building'],
+    icon: <GraduationCap size={20} />,
   },
   {
     id: 4,
     role: 'Data Entry & Analytics Specialist',
     org: 'Dataksha Analytics',
-    year: '2023',
+    period: '2023',
+    current: false,
+    location: 'Kathmandu, Nepal',
+    type: 'Data Operations',
     description:
       'Managed client data administration through quality-driven workflows. Maintained relational dataset consistency feeding downstream business intelligence and statistical modeling.',
     tags: ['Data Auditing', 'Quality Control', 'Data Pipelines', 'Spreadsheet Analytics'],
+    icon: <Database size={20} />,
   },
 ];
 
 export default function Experience() {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-
   return (
     <section id="experience" className="career-viewport-section" aria-label="Career and Experience">
-      {/* Glow background ambient */}
-      <div className="career-ambient-glow" />
-
-      {/* Section Title */}
+      {/* Section Header */}
       <div className="career-header-center">
+        <div className="career-badge-pill">
+          <Briefcase size={13} className="career-badge-icon" />
+          <span>My Journey</span>
+        </div>
         <h2 className="career-main-title">
-          My career &amp; <span className="title-purple-gradient">experience</span>
+          My Career &amp; <span className="title-purple-gradient">Experience</span>
         </h2>
         <p className="career-subtext">
           A progression of hands-on software development, institutional operations, and community leadership.
         </p>
+        <div className="career-accent-divider" />
       </div>
 
-      {/* 3-Column Neon Timeline Layout */}
-      <div className="timeline-neon-container">
-        {/* Central Vertical Neon Line */}
-        <div className="neon-vertical-line">
-          <div className="neon-line-track" />
-          <div 
-            className="neon-line-bead"
-            style={{
-              top: hoveredIndex !== null ? `${(hoveredIndex + 0.5) * 25}%` : '75%',
-            }}
-          />
-        </div>
+      {/* Experience Cards Stack */}
+      <div className="experience-cards-container">
+        {EXPERIENCES.map((item) => (
+          <article
+            key={item.id}
+            className={`experience-card ${item.current ? 'is-current' : ''}`}
+          >
+            {/* Left accent indicator line */}
+            <div className="experience-card-accent-bar" />
 
-        {/* Timeline Rows */}
-        <div className="timeline-rows-list">
-          {TIMELINE_DATA.map((item, index) => {
-            const isHovered = hoveredIndex === index;
-            return (
-              <div
-                key={item.id}
-                className={`timeline-row-item ${isHovered ? 'row-active' : ''}`}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                {/* Left Column: Role & Organization */}
-                <div className="timeline-col-role">
-                  <h3 className="timeline-role-name">{item.role}</h3>
-                  <span className="timeline-org-name">{item.org}</span>
-                </div>
+            <div className="experience-card-inner">
+              {/* Card Header */}
+              <div className="experience-card-header">
+                {/* Icon & Title info */}
+                <div className="experience-header-main">
+                  <div className="experience-icon-box" aria-hidden="true">
+                    {item.icon}
+                  </div>
 
-                {/* Center Column: Huge Bold Year */}
-                <div className="timeline-col-year">
-                  <span className="timeline-year-text">{item.year}</span>
-                  <div className="timeline-center-node" />
-                </div>
+                  <div className="experience-title-group">
+                    <div className="experience-role-row">
+                      <h3 className="experience-role-title">{item.role}</h3>
+                      {item.current && (
+                        <span className="experience-active-pill">
+                          <span className="experience-active-dot" />
+                          Present
+                        </span>
+                      )}
+                    </div>
 
-                {/* Right Column: Description & Tags */}
-                <div className="timeline-col-desc">
-                  <p className="timeline-desc-text">{item.description}</p>
-                  <div className="timeline-tags-wrap">
-                    {item.tags.map((tag) => (
-                      <span key={tag} className="timeline-pill-tag">
-                        {tag}
+                    <div className="experience-meta-row">
+                      <span className="experience-org-name">{item.org}</span>
+                      <span className="experience-meta-sep">•</span>
+                      <span className="experience-location-text">
+                        <MapPin size={12} className="experience-location-icon" />
+                        {item.location}
                       </span>
-                    ))}
+                    </div>
                   </div>
                 </div>
+
+                {/* Duration Badge */}
+                <div className="experience-duration-badge">
+                  <Calendar size={13} className="experience-calendar-icon" />
+                  <span>{item.period}</span>
+                </div>
               </div>
-            );
-          })}
-        </div>
+
+              {/* Responsibilities Description */}
+              <div className="experience-body">
+                <p className="experience-description">{item.description}</p>
+              </div>
+
+              {/* Technologies / Skills Tags */}
+              <div className="experience-footer">
+                <div className="experience-tags-list">
+                  {item.tags.map((tag) => (
+                    <span key={tag} className="experience-tag-pill">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
