@@ -196,6 +196,8 @@ export default function Project() {
               </div>
             )}
 
+            {}
+
             {/* Description */}
             <p className="work-item-description">{item.description}</p>
 
