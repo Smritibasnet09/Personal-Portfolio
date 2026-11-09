@@ -62,6 +62,10 @@ export default function Skills() {
         Tools, frameworks, and programming languages supported by verified project implementations and coursework.
       </p>
 
+      <div>
+        
+      </div>
+
       <div className="skills-grid-six">
         {SKILL_SECTIONS.map(({ id, number, title, skills }) => (
           <div key={id} className="skill-category-box">
