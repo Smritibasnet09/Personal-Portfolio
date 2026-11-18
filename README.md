@@ -1,13 +1,44 @@
-# React + Vite
+# Smriti Basnet — Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive, multi-page personal portfolio built with **React 19**, **React Router 7**, **Vite**, and **Three.js**.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** — UI library
+- **React Router 7** — Multi-page client-side routing
+- **Vite 7** — High-speed build tool
+- **Three.js** — 3D interactive graphics (3D Holographic Card & CyberSphere)
+- **Lucide React** — Icon library
+- **Canvas Confetti** — Micro-interactions
 
-## Expanding the ESLint configuration
+## Multi-Page Route Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-"# Portfolio" 
+| Route | Page | Description |
+|---|---|---|
+| `/` | **Home** | Interactive 3D Hero + Portfolio Overview & Hub |
+| `/about` | **About** | Academic background, SSRC AI club role & tech highlights |
+| `/expertise` | **Expertise** | 3D CyberSphere + HUD expandable architecture cards |
+| `/experience` | **Career** | Professional experience timeline & responsibilities |
+| `/achievements` | **Awards** | Podium hackathons, leadership recognitions & certificates |
+| `/projects` | **Work** | 6 complete showcase projects with category filters & source links |
+| `/contact` | **Contact** | Interactive contact methods, one-click copy email & message form |
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+---
+
+© 2026 Smriti Basnet

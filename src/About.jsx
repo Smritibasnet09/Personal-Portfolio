@@ -18,6 +18,9 @@ export default function About() {
       {/* Top Tracked Title */}
       <div className="section-header-tracked">
         <span className="tracked-eyebrow">ABOUT ME</span>
+        <h1 className="about-main-heading" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginTop: '0.4rem' }}>
+          Architecting Intelligence with <span className="title-purple-gradient">AI &amp; Code</span>
+        </h1>
       </div>
 
       <div className="about-grid-layout">

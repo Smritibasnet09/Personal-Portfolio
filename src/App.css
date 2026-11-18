@@ -2731,3 +2731,199 @@ body::before {
   border-color: var(--accent-purple-light);
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
 }
+
+/* ==========================================================================
+   MULTI-PAGE ROUTING STYLES & ENHANCEMENTS
+   ========================================================================== */
+.about-viewport-section,
+.whatido-viewport-section,
+.career-viewport-section,
+.achievements-viewport-section,
+.work-viewport-section,
+.contact-viewport-section {
+  min-height: calc(100vh - 140px);
+  padding: 6.5rem 0 5rem;
+}
+
+/* Footer Navigation Links */
+.footer-nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.footer-nav-link {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  font-family: var(--font-display);
+  transition: color 0.2s ease;
+}
+
+.footer-nav-link:hover {
+  color: var(--accent-purple-light);
+}
+
+@media (max-width: 768px) {
+  .footer-inner-wrap {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.2rem;
+  }
+  .footer-nav-links {
+    justify-content: center;
+    gap: 0.85rem;
+  }
+}
+
+/* Home Page Overview Grid */
+.home-explore-section {
+  padding: 4.5rem 0 6rem;
+  border-top: 1px solid rgba(168, 85, 247, 0.12);
+  margin-top: 2rem;
+}
+
+.home-explore-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.home-explore-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-top: 0.5rem;
+}
+
+.home-explore-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  max-width: 580px;
+  margin: 0.6rem auto 0;
+  line-height: 1.6;
+}
+
+.home-explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.8rem;
+}
+
+.home-explore-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.8rem;
+  background: rgba(14, 10, 24, 0.65);
+  border: 1px solid rgba(168, 85, 247, 0.22);
+  border-radius: 18px;
+  backdrop-filter: blur(14px);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-explore-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.home-explore-card:hover {
+  border-color: var(--accent-purple-light);
+  transform: translateY(-4px);
+  background: rgba(22, 16, 38, 0.82);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(168, 85, 247, 0.25);
+}
+
+.home-explore-card:hover::before {
+  opacity: 1;
+}
+
+.explore-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.explore-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(168, 85, 247, 0.14);
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-purple-light);
+  transition: transform 0.25s ease;
+}
+
+.home-explore-card:hover .explore-card-icon {
+  transform: scale(1.08);
+  background: rgba(168, 85, 247, 0.25);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+.explore-card-tag {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--accent-lavender);
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  padding: 0.22rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.explore-card-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.explore-card-sub {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-purple-light);
+  margin-bottom: 0.75rem;
+}
+
+.explore-card-desc {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.explore-card-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--accent-purple-light);
+  transition: all 0.2s ease;
+}
+
+.home-explore-card:hover .explore-card-arrow {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+

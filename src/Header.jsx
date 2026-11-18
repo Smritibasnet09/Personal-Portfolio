@@ -1,55 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sparkles, Send } from 'lucide-react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
+import { Menu, X, Send } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { id: 'about', label: 'ABOUT' },
-  { id: 'whatido', label: 'EXPERTISE' },
-  { id: 'experience', label: 'CAREER' },
-  { id: 'achievements', label: 'AWARDS' },
-  { id: 'projects', label: 'WORK' },
-  { id: 'contact', label: 'CONTACT' },
+  { path: '/about', label: 'ABOUT' },
+  { path: '/expertise', label: 'EXPERTISE' },
+  { path: '/experience', label: 'CAREER' },
+  { path: '/achievements', label: 'AWARDS' },
+  { path: '/projects', label: 'WORK' },
+  { path: '/contact', label: 'CONTACT' },
 ];
 
 export default function Header() {
-  const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-      const scrollPos = window.scrollY + 200;
-      const allSections = ['home', 'about', 'whatido', 'experience', 'achievements', 'projects', 'contact'];
-
-      for (const id of [...allSections].reverse()) {
-        const el = document.getElementById(id);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(id);
-          break;
-        }
-      }
+      setScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  // Close mobile drawer on route change
+  useEffect(() => {
     setMobileMenuOpen(false);
-  };
+  }, [location.pathname]);
 
   return (
     <header className={`portfolio-header-wrapper ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="header-floating-island">
         {/* Left: Brand Monogram Pill */}
         <div className="header-col-left">
-          <button
+          <Link
+            to="/"
             className="header-brand-pill"
-            onClick={() => scrollTo('home')}
             aria-label="Back to home"
           >
             <div className="brand-pill-ring">
@@ -57,32 +45,34 @@ export default function Header() {
               <span className="brand-status-dot" title="Available for opportunities" />
             </div>
             <span className="brand-subname">Smriti Basnet</span>
-          </button>
+          </Link>
         </div>
 
-        {/* Center: "Portofolio" Stylized Capsule */}
+        {/* Center: "Portfolio" Stylized Capsule */}
         <div className="header-col-center">
-          <div className="header-center-pill" onClick={() => scrollTo('home')}>
+          <Link to="/" className="header-center-pill">
             <span className="center-pill-glint" />
-            <span className="center-pill-text">Portofolio</span>
-          </div>
+            <span className="center-pill-text">Portfolio</span>
+          </Link>
         </div>
 
         {/* Right: Modern Navigation Pill Tabs */}
         <div className="header-col-right">
           <nav className="header-nav-desktop" aria-label="Main Navigation">
             <ul className="nav-pill-list">
-              {NAV_ITEMS.map(({ id, label }) => {
-                const isActive = activeSection === id;
+              {NAV_ITEMS.map(({ path, label }) => {
+                const isActive = location.pathname === path;
                 return (
-                  <li key={id}>
-                    <button
-                      className={`nav-tab-btn ${isActive ? 'active' : ''}`}
-                      onClick={() => scrollTo(id)}
+                  <li key={path}>
+                    <NavLink
+                      to={path}
+                      className={({ isActive: navActive }) =>
+                        `nav-tab-btn ${navActive ? 'active' : ''}`
+                      }
                     >
                       <span>{label}</span>
                       {isActive && <span className="nav-active-glow-pill" />}
-                    </button>
+                    </NavLink>
                   </li>
                 );
               })}
@@ -90,14 +80,14 @@ export default function Header() {
           </nav>
 
           {/* Quick Connect Button */}
-          <button
-            onClick={() => scrollTo('contact')}
+          <Link
+            to="/contact"
             className="nav-quick-cta"
             aria-label="Contact Smriti"
           >
             <span>Connect</span>
             <Send size={12} className="cta-icon" />
-          </button>
+          </Link>
 
           {/* Mobile Menu Toggle */}
           <button
@@ -119,25 +109,33 @@ export default function Header() {
               <button 
                 onClick={() => setMobileMenuOpen(false)}
                 className="mobile-nav-close"
+                aria-label="Close menu"
               >
                 <X size={18} />
               </button>
             </div>
             <div className="mobile-nav-items-stack">
-              <button
-                className={`mobile-tab-btn ${activeSection === 'home' ? 'active' : ''}`}
-                onClick={() => scrollTo('home')}
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) =>
+                  `mobile-tab-btn ${isActive ? 'active' : ''}`
+                }
+                onClick={() => setMobileMenuOpen(false)}
               >
                 HOME
-              </button>
-              {NAV_ITEMS.map(({ id, label }) => (
-                <button
-                  key={id}
-                  className={`mobile-tab-btn ${activeSection === id ? 'active' : ''}`}
-                  onClick={() => scrollTo(id)}
+              </NavLink>
+              {NAV_ITEMS.map(({ path, label }) => (
+                <NavLink
+                  key={path}
+                  to={path}
+                  className={({ isActive }) =>
+                    `mobile-tab-btn ${isActive ? 'active' : ''}`
+                  }
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   {label}
-                </button>
+                </NavLink>
               ))}
             </div>
           </div>

@@ -1,17 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import HoloPortraitCard from './components/HoloPortraitCard';
-import { ArrowRight, Sparkles, Terminal, Code } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function Hero() {
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
-    <section id="home" className="hero-viewport-section" aria-label="Hero Introduction">
+    <section className="hero-viewport-section" aria-label="Hero Introduction">
       {/* Ambient background glows */}
       <div className="hero-radial-glow hero-glow-left" />
       <div className="hero-radial-glow hero-glow-right" />
@@ -35,19 +29,19 @@ export default function Hero() {
           </p>
 
           <div className="hero-action-buttons">
-            <button 
-              onClick={() => scrollTo('projects')}
+            <Link 
+              to="/projects"
               className="btn-purple-glow"
             >
               <span>Explore My Work</span>
               <ArrowRight size={16} />
-            </button>
-            <button 
-              onClick={() => scrollTo('contact')}
+            </Link>
+            <Link 
+              to="/contact"
               className="btn-ghost-glass"
             >
               <span>Get In Touch</span>
-            </button>
+            </Link>
           </div>
         </div>
 

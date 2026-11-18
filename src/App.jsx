@@ -1,8 +1,9 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 
 import Header from './Header';
-import Hero from './Hero';
+import Home from './Home';
 import About from './About';
 import WhatIDo from './WhatIDo';
 import Experience from './Experience';
@@ -13,27 +14,37 @@ import Footer from './Footer';
 
 import SocialSidebar from './components/SocialSidebar';
 import ResumeModal from './components/ResumeModal';
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   return (
-    <div className="portfolio-app-root">
-      {/* Fixed UI Overlays */}
-      <Header />
-      <SocialSidebar />
-      <ResumeModal />
+    <BrowserRouter>
+      <div className="portfolio-app-root">
+        {/* Route Change Scroll Reset */}
+        <ScrollToTop />
 
-      {/* Main Narrative Flow */}
-      <main className="main-viewport-flow">
-        <Hero />
-        <About />
-        <WhatIDo />
-        <Experience />
-        <Achievements />
-        <Project />
-        <Contact />
-      </main>
+        {/* Global Overlays */}
+        <Header />
+        <SocialSidebar />
+        <ResumeModal />
 
-      <Footer />
-    </div>
+        {/* Dynamic Route Pages */}
+        <main className="main-viewport-flow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/expertise" element={<WhatIDo />} />
+            <Route path="/experience" element={<Experience />} />
+            <Route path="/achievements" element={<Achievements />} />
+            <Route path="/projects" element={<Project />} />
+            <Route path="/contact" element={<Contact />} />
+            {/* Fallback to Home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
