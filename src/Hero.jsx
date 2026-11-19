@@ -20,7 +20,7 @@ export default function Hero() {
             </h1>
             <div className="hero-tag-pill">
               <span className="status-ping-dot" />
-              <span>Sunway College • BCU UK Graduate</span>
+              <span>Sunway College</span>
             </div>
           </div>
 
