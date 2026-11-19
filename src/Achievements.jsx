@@ -153,10 +153,6 @@ export default function Achievements() {
                 loading="lazy"
                 className="achievement-img"
               />
-              <span className="achievement-badge-pill">
-                {item.icon}
-                <span>{item.badge}</span>
-              </span>
             </div>
 
             <div className="achievement-content-block">

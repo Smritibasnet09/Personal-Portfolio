@@ -294,7 +294,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 3. ACHIEVEMENTS & SOCIAL WORK (ALTERNATING CENTER-LINE TIMELINE) ── */}
+      {/* ── 3. ACHIEVEMENTS & SOCIAL WORK (CLEAN GRID) ── */}
       <section className="hp-section hp-social-work-section" id="achievements" aria-label="Achievements and Social Work">
         <div className="hp-achievements-glow" />
         
@@ -307,81 +307,56 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Alternating Center-Line Timeline */}
-        <div className="achievements-timeline-container">
-          {/* Vertical center glowing spine */}
-          <div className="achievements-timeline-spine" />
+        {/* Clean Grid of Achievement Cards */}
+        <div className="hp-achievements-grid">
+          {ENHANCED_ACHIEVEMENTS.map((item) => (
+            <div
+              key={item.id}
+              className="hp-achievement-card"
+              onClick={() => setSelectedAchievement(item)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setSelectedAchievement(item);
+                }
+              }}
+              title="Click to view details"
+            >
+              {/* Full Image */}
+              <div className="hp-achievement-img-wrap">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="hp-achievement-img"
+                  loading="lazy"
+                />
+                <div className="hp-achievement-img-overlay" />
+              </div>
 
-          <div className="achievements-timeline-items">
-            {ENHANCED_ACHIEVEMENTS.map((item, idx) => {
-              const isEven = idx % 2 === 0;
-              return (
-                <div
-                  key={item.id}
-                  className={`achievements-timeline-row ${isEven ? 'row-left' : 'row-right'}`}
-                >
-                  {/* Center Node Pin */}
-                  <div className="timeline-node-pin">
-                    <span className="timeline-node-dot" />
-                    <span className="timeline-node-year">{item.year}</span>
-                  </div>
+              {/* Card Info */}
+              <div className="hp-achievement-info">
+                <span className="hp-achievement-subtitle">{item.subtitle}</span>
+                <h3 className="hp-achievement-title">{item.title}</h3>
+                <p className="hp-achievement-summary">{item.summary}</p>
 
-                  {/* Horizontal Branch Line connecting node to card */}
-                  <div className="timeline-branch-line" />
-
-                  {/* Alternating Card */}
-                  <div
-                    className="achievements-timeline-card"
-                    onClick={() => setSelectedAchievement(item)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        setSelectedAchievement(item);
-                      }
-                    }}
-                    title="Click to view details"
-                  >
-                    {/* Thumbnail Image */}
-                    <div className="timeline-card-media">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="timeline-card-img"
-                        loading="lazy"
-                      />
-                      <div className="timeline-card-scrim" />
-                      <div className={`hp-enhanced-top-badge hp-badge--${item.badgeType}`}>
-                        <span>{item.badge}</span>
-                      </div>
-                    </div>
-
-                    {/* Card Body */}
-                    <div className="timeline-card-body">
-                      <span className="timeline-card-sub">{item.subtitle}</span>
-                      <h3 className="timeline-card-title">{item.title}</h3>
-                      <p className="timeline-card-desc">{item.summary}</p>
-
-                      <div className="timeline-card-tags">
-                        {item.tags.map((tag) => (
-                          <span key={tag} className="timeline-tag-pill">
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="timeline-card-footer">
-                        <span className="timeline-expand-btn">
-                          <span>View Story &amp; Details</span>
-                          <ExternalLink size={13} />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                <div className="hp-achievement-tags">
+                  {item.tags.map((tag) => (
+                    <span key={tag} className="hp-achievement-tag">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
+
+                <div className="hp-achievement-footer">
+                  <span className="hp-achievement-view-btn">
+                    <span>View Details</span>
+                    <ExternalLink size={13} />
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Bottom CTA to All Awards */}
@@ -419,9 +394,6 @@ export default function Home() {
             </div>
 
             <div className="achievement-lightbox-info">
-              <div className={`hp-enhanced-top-badge hp-badge--${selectedAchievement.badgeType}`}>
-                {selectedAchievement.badge}
-              </div>
               <span className="lightbox-subtitle">{selectedAchievement.subtitle}</span>
               <h3 className="lightbox-title">{selectedAchievement.title}</h3>
               <p className="lightbox-desc">{selectedAchievement.summary}</p>
