@@ -49,13 +49,6 @@ import DifImg from './assets/dif.png';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
-const TECH_MARQUEE = [
-  'Python 3.11', 'PyTorch', 'TensorFlow', 'FastAPI', 'Django REST',
-  'RAG Pipelines', 'LLM Agents', 'Docker', 'Apache Airflow', 'MLflow',
-  'Evidently AI', 'PostgreSQL', 'Redis', 'React 19', 'Next.js',
-  'Scikit-learn', 'CatBoost', 'ChromaDB', 'CI/CD Pipelines',
-];
-
 const PROJECT_FILTERS = ['All Works', 'AI & Machine Learning', 'Full-Stack Systems'];
 
 // Real projects with preview screenshots & metrics
@@ -399,18 +392,6 @@ export default function Home() {
 
       {/* ── 1. HERO ── */}
       <Hero />
-
-      {/* ── TECH MARQUEE ── */}
-      <section className="tech-marquee-wrapper" aria-label="Technology Stack">
-        <div className="tech-marquee-track">
-          {[...TECH_MARQUEE, ...TECH_MARQUEE].map((tech, idx) => (
-            <span key={idx} className="tech-marquee-item">
-              <span className="marquee-dot" />
-              <span>{tech}</span>
-            </span>
-          ))}
-        </div>
-      </section>
 
       {/* ── 2. SELECTED WORK — PREMIUM PROJECTS SHOWCASE ── */}
       <section className="hp-section sw-section" id="projects" aria-label="Selected Work — Featured Projects">

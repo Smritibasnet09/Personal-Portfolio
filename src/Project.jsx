@@ -1,273 +1,425 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Github,
-  ExternalLink,
-  ArrowRight,
-  Cpu,
-  Layers,
-  Sparkles,
-  ShieldAlert,
-  Activity,
-  CheckCircle2,
-  FolderGit2,
-} from 'lucide-react';
+import { Github } from 'lucide-react';
 
-import FraudImg from './assets/Fraud.png';
-import HMSImg from './assets/HMS.png';
-import WeatherImg from './assets/Weatherapp.png';
-import NyanoImg from './assets/Nyano.png';
-import AiImg from './assets/Ai.jpeg';
-import MusicImg from './assets/music.png';
+/* ------------------------------------------------------------------ */
+/*  Styles (everything lives in this one file)                        */
+/*  Change the colors in .pj-section to re-theme the whole page.      */
+/* ------------------------------------------------------------------ */
 
-const FILTERS = ['All', 'AI / ML', 'Full-Stack', 'Tools'];
+const STYLES = `
+.pj-section {
+  --pj-card: rgba(255, 255, 255, 0.04);
+  --pj-border: rgba(168, 85, 247, 0.18);
+  --pj-border-hover: rgba(168, 85, 247, 0.55);
+  --pj-accent: #a855f7;
+  --pj-accent-2: #7c3aed;
+  --pj-text: #f4f1fb;
+  --pj-muted: #a79fbd;
+
+  width: 100%;
+  padding: 4.5rem 2rem 6rem;
+  color: var(--pj-text);
+  /* No background on purpose: your page background shows through */
+}
+
+/* ---------- Header ---------- */
+.pj-header {
+  position: relative;
+  isolation: isolate;
+  max-width: 760px;
+  margin: 0 auto 3.4rem;
+  text-align: center;
+}
+/* soft purple glow behind the heading */
+.pj-header::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -70px;
+  left: 50%;
+  width: 540px;
+  height: 260px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(124, 58, 237, 0.3), transparent);
+  filter: blur(24px);
+  pointer-events: none;
+}
+.pj-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #c4a6f5;
+}
+.pj-eyebrow::before,
+.pj-eyebrow::after {
+  content: '';
+  width: 46px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--pj-accent));
+}
+.pj-eyebrow::after {
+  transform: scaleX(-1);
+}
+.pj-heading {
+  margin: 0 0 0.9rem;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.pj-gradient-text {
+  background: linear-gradient(120deg, #c084fc, #a855f7 50%, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.pj-sub {
+  max-width: 520px;
+  margin: 0 auto;
+  color: var(--pj-muted);
+  line-height: 1.65;
+}
+
+/* ---------- Grid ---------- */
+.pj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* ---------- Card ---------- */
+.pj-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.8rem;
+  background: var(--pj-card);
+  border: 1px solid var(--pj-border);
+  border-radius: 18px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  animation: pj-rise 0.55s ease both;
+  animation-delay: calc(var(--d, 0) * 70ms);
+}
+/* thin glow line along the top edge */
+.pj-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 1.8rem;
+  right: 1.8rem;
+  height: 2px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(90deg, transparent, var(--pj-accent), transparent);
+  opacity: 0.35;
+  transition: opacity 0.25s ease;
+}
+.pj-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pj-border-hover);
+  box-shadow: 0 18px 40px -22px rgba(124, 58, 237, 0.6);
+}
+.pj-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes pj-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pj-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.pj-category {
+  display: inline-block;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.7rem;
+  color: #e9d5ff;
+  background: rgba(168, 85, 247, 0.14);
+  border-radius: 999px;
+}
+.pj-number {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.25);
+}
+.pj-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.pj-tagline {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  color: #c4a6f5;
+}
+.pj-desc {
+  margin: 0 0 1.1rem;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--pj-muted);
+}
+.pj-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: auto 0 1.2rem;
+  padding: 0;
+  list-style: none;
+}
+.pj-tag {
+  padding: 0.18rem 0.55rem;
+  font-size: 0.7rem;
+  color: var(--pj-muted);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+}
+
+/* "View source" with an underline that grows on hover */
+.pj-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #c084fc;
+  text-decoration: none;
+}
+.pj-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transition: right 0.25s ease;
+}
+.pj-link:hover {
+  color: #e9d5ff;
+}
+.pj-link:hover::after {
+  right: 0;
+}
+.pj-link:focus-visible,
+.pj-footer a:focus-visible {
+  outline: 2px solid var(--pj-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Footer line ---------- */
+.pj-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem 2rem;
+  max-width: 1240px;
+  margin: 2.4rem auto 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--pj-border);
+  font-size: 0.9rem;
+  color: var(--pj-muted);
+}
+.pj-footer p {
+  margin: 0;
+}
+.pj-footer a {
+  color: #c084fc;
+  font-weight: 600;
+  text-decoration: none;
+}
+.pj-footer a:hover {
+  color: #e9d5ff;
+  text-decoration: underline;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .pj-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .pj-section {
+    padding: 3.5rem 1rem 4rem;
+  }
+  .pj-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pj-card {
+    padding: 1.4rem;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .pj-card,
+  .pj-link::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+`;
+
+/* ------------------------------------------------------------------ */
+/*  Data (edit your projects here)                                    */
+/* ------------------------------------------------------------------ */
+
+const GITHUB_PROFILE = 'https://github.com/Smritibasnet09';
 
 const PROJECTS = [
   {
     id: 1,
     number: '01',
-    title: 'Credit Card Fraud Detection System',
-    category: 'AI / ML',
-    tagline: 'End-to-end MLOps pipeline with automated drift monitoring',
-    tools: 'Python, CatBoost, XGBoost, Scikit-learn, FastAPI, Evidently AI, Airflow, Docker',
+    title: 'Kribo Nepal',
+    category: 'Full-Stack',
+    tagline: 'Agricultural marketplace connecting farmers and brokers',
     description:
-      'Production-ready financial fraud prevention architecture engineered to classify anomalous credit card transactions with high recall under severe class imbalance.',
-    highlights: [
-      'Engineered an ensemble decision pipeline utilizing CatBoost and SMOTE oversampling, achieving a 98.4% ROC-AUC score on real transaction datasets.',
-      'Implemented real-time data drift monitoring using Evidently AI to calculate distribution shift metrics on incoming payment payloads.',
-      'Configured scheduled Apache Airflow DAGs to trigger model retraining whenever feature drift exceeds predefined statistical confidence thresholds.',
-      'Packaged the inference engine into an asynchronous FastAPI microservice containerized with Docker, maintaining sub-18ms prediction latency.',
-    ],
-    image: FraudImg,
-    github: 'https://github.com/Smritibasnet09',
-    metrics: { accuracy: '98.4% ROC-AUC', latency: '< 18ms', status: 'Production-Ready' },
+      'A digital marketplace where farmers list their produce and verified brokers post requirements, enabling location-based discovery and transparent negotiations.',
+    tools: 'React, FastAPI, PostgreSQL, Socket.IO, React Native Maps, Scikit-learn',
+    github: 'https://github.com/Smritibasnet09/Kribo-Nepal',
   },
   {
     id: 2,
     number: '02',
-    title: 'Intelligent Health Management Platform',
+    title: 'Intelligent Health Management',
     category: 'Full-Stack',
-    tagline: 'Clinical operations platform with context-aware RAG medical assistant',
-    tools: 'Django, Django REST Framework, PostgreSQL, React, ChromaDB, Gemini API',
+    tagline: 'Hospital platform with a RAG medical assistant',
     description:
-      'Comprehensive healthcare administration platform combining hospital patient management with a retrieval-augmented generation assistant for preliminary clinical inquiry.',
-    highlights: [
-      'Built a complete hospital management dashboard supporting doctor scheduling, patient clinical histories, and pharmacy inventory tracking.',
-      'Integrated a RAG-powered conversational medical assistant indexing verified clinical guidelines in ChromaDB to prevent hallucination.',
-      'Implemented secure JWT-based Role-Based Access Control (RBAC) separating permissions for doctors, nursing staff, patients, and administrators.',
-      'Designed a normalized PostgreSQL relational database schema with indexed foreign keys ensuring ACID compliance across financial transactions.',
-    ],
-    image: HMSImg,
-    github: 'https://github.com/Smritibasnet09',
-    metrics: { auth: 'JWT / RBAC', db: 'PostgreSQL ACID', rag: 'ChromaDB' },
+      'Manages doctors, patients, appointments and pharmacy inventory, with JWT role-based access and an AI assistant grounded in clinical guidelines.',
+    tools: 'Django, PostgreSQL, React, ChromaDB, Gemini API',
+    github: GITHUB_PROFILE,
   },
   {
     id: 3,
     number: '03',
-    title: 'Weather Analytics & Forecasting Dashboard',
-    category: 'Full-Stack',
-    tagline: 'Real-time meteorological telemetry & multi-city forecasting',
-    tools: 'React 19, Vite, OpenWeather API, Chart.js, Tailwind CSS',
+    title: 'Learn.AR',
+    category: 'AR / AI',
+    tagline: 'AR and AI learning platform for biology and chemistry',
     description:
-      'Modern, highly responsive weather dashboard featuring real-time meteorological conditions, 5-day historical trend graphs, and interactive city search with caching.',
-    highlights: [
-      'Consumes RESTful OpenWeather telemetry endpoints with debounced client-side search and geolocation auto-detection.',
-      'Visualizes temperature shifts, atmospheric pressure, UV index, and humidity through interactive Chart.js line and bar graphs.',
-      'Engineered a custom dark obsidian glassmorphic user interface optimized across mobile, tablet, and high-resolution desktop viewports.',
-      'Integrated client-side state caching with localStorage to minimize redundant API network roundtrips.',
-    ],
-    image: WeatherImg,
-    github: 'https://github.com/Smritibasnet09',
-    metrics: { ui: 'Glassmorphism', latency: 'Instant Cache', data: 'OpenWeather' },
+      'Learning assistant that turns biology and chemistry into interactive 3D models and virtual experiments, with chapter quizzes and a Gemini-powered AI tutor.',
+    tools: 'React, Vite, Tailwind CSS, Three.js, AR.js, Node.js, MongoDB, Gemini API',
+    github: 'https://github.com/Smritibasnet09/TechSprint_visionary_AR',
   },
-  {
-    id: 4,
-    number: '04',
-    title: 'Nyano — Contextual Conversational Agent',
-    category: 'AI / ML',
-    tagline: 'Multi-turn conversational assistant with streaming inference',
-    tools: 'Python, Google Gemini API, FastAPI, React, WebSocket Streaming',
-    description:
-      'Empathetic, highly responsive generative AI assistant built with custom prompt engineering, streaming response chunks, and dynamic markdown interpretation.',
-    highlights: [
-      'Designed multi-turn conversation memory buffers preserving persona continuity and contextual tokens across extended dialogue sessions.',
-      'Implemented server-sent streaming over FastAPI so tokens render progressively in real-time, reducing perceived time-to-first-token to under 300ms.',
-      'Integrated markdown parsing with syntax highlighting for code snippets, markdown tables, and latex math equations.',
-      'Applied strict safety filters and system-level system prompts to eliminate toxic completions and maintain conversational boundaries.',
-    ],
-    image: NyanoImg,
-    github: 'https://github.com/Smritibasnet09',
-    metrics: { ttft: '< 300ms', protocol: 'Streaming API', model: 'Gemini 1.5 Pro' },
-  },
+ {
+  id: 4,
+  number: '04',
+  title: 'Nyano Kokh (Smart Monitoring Blanket)',
+  category: 'IoT / AI',
+  tagline: 'Real time baby health and safety monitoring',
+  description:
+    'Smart monitoring blanket that tracks a baby’s temperature and movement in real time, providing alerts to caregivers for improved safety and comfort.',
+  tools: 'IoT Sensors, Python, AI/ML, Django',
+  github: GITHUB_PROFILE,
+},
   {
     id: 5,
     number: '05',
-    title: 'Deep Learning Image Classifier',
+    title: 'Smart Waste Classification',
     category: 'AI / ML',
-    tagline: 'Transfer learning vision model with real-time inference UI',
-    tools: 'Python, TensorFlow, Keras, MobileNetV2, Streamlit, NumPy',
+    tagline: 'MobileNetV2 transfer learning on a Raspberry Pi 4',
     description:
-      'Computer vision classification model utilizing deep convolutional networks and transfer learning, equipped with a clean visual web interface for image uploads.',
-    highlights: [
-      'Fine-tuned pre-trained MobileNetV2 architectures on custom labeled image datasets using data augmentation (rotations, flips, zooming).',
-      'Implemented categorical cross-entropy loss optimization with learning rate schedulers and early stopping to prevent overfitting.',
-      'Built an interactive Streamlit frontend displaying class prediction probabilities, confidence score meters, and feature map visualizations.',
-      'Optimized the final model weights with quantization for lightweight inference without noticeable loss in top-1 accuracy.',
-    ],
-    image: AiImg,
-    github: 'https://github.com/Smritibasnet09',
-    metrics: { backbone: 'MobileNetV2', inference: 'Real-Time', framework: 'TensorFlow' },
+      'Lightweight classifier that sorts waste into metal, organic, paper, plastic or none, running offline on a Raspberry Pi 4. Data augmentation raised accuracy from 71.2% to 93.6%.',
+    tools: 'Python, MobileNetV2, Transfer Learning, Raspberry Pi 4',
+    github: 'https://github.com/Smritibasnet09/Waste-Classification-System-Using-Transfer-Learning',
   },
   {
     id: 6,
     number: '06',
-    title: 'Music Recommendation Engine',
+    title: 'Dufy (Music Recommendation)',
     category: 'Tools',
-    tagline: 'Collaborative & content-based filtering audio recommender',
-    tools: 'Python, Pandas, Scikit-learn, Spotify Web API, Cosine Similarity',
+    tagline: 'Content and collaborative audio recommender',
     description:
-      'Algorithmic music recommendation system capable of generating tailored playlists based on acoustic feature similarity, genre vectors, and listener preferences.',
-    highlights: [
-      'Extracted high-dimensional audio feature vectors (danceability, acousticness, valence, tempo) via the Spotify Web API.',
-      'Engineered a cosine-similarity recommendation matrix mapping track distances in high-dimensional feature space.',
-      'Built a hybrid ranking model blending collaborative user interaction signals with intrinsic acoustic content vectors.',
-      'Packaged into a modular Python script with interactive CLI prompts and automated Spotify playlist export capabilities.',
-    ],
-    image: MusicImg,
-    github: 'https://github.com/Smritibasnet09',
-    metrics: { algorithm: 'Cosine Similarity', features: '12 Acoustic Vectors', api: 'Spotify API' },
+      'Recommends tracks using cosine similarity over Spotify audio features and can export the result as a playlist.',
+    tools: 'Python, Pandas, Scikit-learn, Spotify Web API',
+    github: GITHUB_PROFILE,
   },
 ];
 
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
 export default function Project() {
-  const [activeFilter, setActiveFilter] = useState('All');
-
-  const filtered =
-    activeFilter === 'All'
-      ? PROJECTS
-      : PROJECTS.filter((p) => p.category === activeFilter);
-
   return (
-    <section className="work-viewport-section" aria-label="Software Engineering Projects">
-      <div className="work-glow-orb" />
+    <section className="pj-section" aria-label="Projects">
+      <style>{STYLES}</style>
 
-      {/* Header */}
-      <div className="work-header-center">
-        <div className="career-badge-pill">
-          <FolderGit2 size={13} className="career-badge-icon" />
-          <span>Production &amp; Research Portfolio</span>
-        </div>
-        <h1 className="work-main-title">
-          Selected <span className="title-purple-gradient">Engineering Projects</span>
+      <header className="pj-header">
+        <span className="pj-eyebrow">Selected Work</span>
+        <h1 className="pj-heading">
+          Latest <span className="pj-gradient-text">Projects</span>
         </h1>
-        <p className="work-subtext">
-          A showcase of verified software systems spanning machine learning pipelines, full-stack web applications, and developer tools.
+        <p className="pj-sub">
+          Machine learning pipelines, full-stack apps and developer tools, built end to end.
         </p>
+      </header>
 
-        {/* Filter Pills */}
-        <div className="work-filter-pills">
-          {FILTERS.map((filter) => (
-            <button
-              key={filter}
-              className={`filter-pill-btn ${activeFilter === filter ? 'active' : ''}`}
-              onClick={() => setActiveFilter(filter)}
+      <div className="pj-grid">
+        {PROJECTS.map((p, i) => (
+          <article key={p.id} className="pj-card" style={{ '--d': i }}>
+            <div className="pj-head">
+              <span className="pj-category">{p.category}</span>
+              <span className="pj-number">{p.number}</span>
+            </div>
+
+            <h2 className="pj-title">{p.title}</h2>
+            <p className="pj-tagline">{p.tagline}</p>
+            <p className="pj-desc">{p.description}</p>
+
+            <ul className="pj-stack" aria-label="Technology stack">
+              {p.tools.split(',').map((t) => (
+                <li key={t} className="pj-tag">
+                  {t.trim()}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={p.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pj-link"
+              aria-label={`View ${p.title} source code on GitHub`}
             >
-              {filter}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Project Cards Grid */}
-      <div className="work-cards-grid">
-        {filtered.map((project) => (
-          <article key={project.id} className="work-showcase-card">
-            {/* Top Row: Number & Title */}
-            <div className="work-card-top-row">
-              <span className="work-giant-number">{project.number}</span>
-              <div className="work-title-group">
-                <span className="work-item-category">{project.category}</span>
-                <h2 className="work-item-name">{project.title}</h2>
-                <span className="work-item-tagline">{project.tagline}</span>
-              </div>
-            </div>
-
-            {/* Preview Frame */}
-            <div className="work-preview-frame">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="work-preview-img"
-                loading="lazy"
-              />
-              <div className="work-preview-overlay">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="preview-link-btn"
-                >
-                  <Github size={16} />
-                  <span>Inspect Codebase</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Description */}
-            <p className="work-item-description">{project.description}</p>
-
-            {/* Key Engineering Highlights */}
-            <div className="work-highlights-box">
-              <span className="highlights-label">Architecture Highlights:</span>
-              <ul className="highlights-list">
-                {project.highlights.map((h, i) => (
-                  <li key={i} className="highlight-item">
-                    <CheckCircle2 size={13} className="highlight-bullet" />
-                    <span>{h}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Tools Tech Stack */}
-            <div className="work-tools-block">
-              <span className="tools-block-label">Technology Stack:</span>
-              <span className="tools-block-text">{project.tools}</span>
-            </div>
-
-            {/* Footer */}
-            <div className="work-card-footer">
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="work-repo-link"
-              >
-                <Github size={15} />
-                <span>Source Repository (Smritibasnet09) →</span>
-              </a>
-            </div>
+              <Github size={15} aria-hidden="true" />
+              View source
+            </a>
           </article>
         ))}
       </div>
 
-      {/* Next CTA */}
-      <div className="about-page-cta" style={{ marginTop: '5rem' }}>
-        <div className="cta-banner-inner">
-          <div>
-            <h3 className="cta-banner-title">Have a technical problem that needs solving?</h3>
-            <p className="cta-banner-desc">Let’s discuss custom AI pipelines, robust FastAPI backends, or collaborative software engineering.</p>
-          </div>
-          <div className="cta-banner-actions">
-            <Link to="/contact" className="btn-purple-glow">
-              <span>Start Conversation</span>
-              <ArrowRight size={15} />
-            </Link>
-            <Link to="/expertise" className="btn-ghost-glass">
-              <span>Explore Tech Capabilities</span>
-            </Link>
-          </div>
-        </div>
+      <div className="pj-footer">
+        <p>
+          See all of my projects{' '}
+          <a href={GITHUB_PROFILE} target="_blank" rel="noopener noreferrer">
+            on GitHub
+          </a>
+        </p>
+        <p>
+          Want to work together? <Link to="/contact">Get in touch</Link>
+        </p>
       </div>
     </section>
   );
