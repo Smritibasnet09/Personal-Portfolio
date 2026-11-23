@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 
 import ImeImg from './assets/Ime.png';
 import NariImg from './assets/Nari.png';
+import TechSprintImg from './assets/Techsprint hack.png';
+import MbmcImg from './assets/MBMC.png';
+import IctImg from './assets/ICT Startup.png';
+import CompanyVisitImg from './assets/company visit.png';
+import MidValleyImg from './assets/mid valley.jpeg';
 
 /* ------------------------------------------------------------------ */
 /*  Styles (everything lives in this one file)                        */
@@ -19,11 +24,54 @@ const STYLES = `
   --ag-text: #f4f1fb;
   --ag-muted: #a79fbd;
 
+  position: relative;
   width: 100%;
   padding: 4.5rem 2rem 6rem;
   color: var(--ag-text);
   overflow-x: clip; /* cards slide in from the sides without causing a scrollbar */
   /* No background on purpose: your page background shows through */
+}
+
+/* ---------- Tiny falling sparks (very few, very small) ---------- */
+.ag-sparks {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ag-spark {
+  position: absolute;
+  top: -6px;
+  width: var(--size);
+  height: var(--size);
+  background: #e9d5ff;
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 0 4px rgba(233, 213, 255, 0.7);
+  animation: ag-fall var(--dur) linear var(--delay) infinite;
+}
+@keyframes ag-fall {
+  0% {
+    top: -6px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+.ag-header,
+.ag-timeline,
+.ag-footer {
+  position: relative;
+  z-index: 1;
 }
 
 /* ---------- Header ---------- */
@@ -429,6 +477,9 @@ const STYLES = `
   .ag-viewer {
     animation: none !important;
   }
+  .ag-sparks {
+    display: none;
+  }
 }
 `;
 
@@ -451,7 +502,17 @@ const ACHIEVEMENTS = [
     text: 'First place at the national AI & software hackathon.',
     more: 'Our team took the top spot after building and pitching a working solution to the judges.',
     photoNote: 'Winning team',
-    image: null, // add your TechSprint photo here
+    image: TechSprintImg,
+  },
+  {
+    id: 7,
+    tag: 'Hackathon',
+    year: '2026',
+    title: 'Mid-Valley Hackathon — Kribo Nepal',
+    text: 'My first hackathon: built Kribo Nepal in under 48 hours with Mandeep, Priyanka and Smriti.',
+    more: 'A platform that connects farmers directly with brokers. We did not win, but I learned rapid product development, debugging under pressure and presenting our solution.',
+    photoNote: 'Team at Mid-Valley Hackathon',
+    image: MidValleyImg,
   },
   {
     id: 2,
@@ -471,17 +532,17 @@ const ACHIEVEMENTS = [
     text: 'Built a project in a 48-hour hackathon.',
     more: 'Went from idea to a working prototype in two days, working closely with the team under time pressure.',
     photoNote: 'Team during the hackathon',
-    image: null,
+    image: MbmcImg,
   },
   {
     id: 4,
-    tag: 'Visit',
+    tag: 'Company Visit',
     year: null,
-    title: 'Company Visit — Intuji',
-    text: 'Visited the Intuji team.',
-    more: 'Met the team and got a look at how a real software company works day to day.',
-    photoNote: 'At the Intuji office',
-    image: null,
+    title: 'Bajra Technologies',
+    text: 'Visited Bajra Technologies with my teammates Pratikshya, Abiska and Upasana for our research.',
+    more: 'Rakshya Koirala shared her insights on software development, and we left more driven to dive into AI and tech.',
+    photoNote: 'At Bajra Technologies',
+    image: CompanyVisitImg,
   },
   {
     id: 5,
@@ -501,38 +562,31 @@ const ACHIEVEMENTS = [
     text: 'Presented Project AI BIN at the festival.',
     more: 'Showed Project AI BIN to visitors and explained how it works.',
     photoNote: 'Team at the project stall',
-    image: null,
+    image: IctImg,
   },
-  {
-    id: 7,
-    tag: 'Program',
-    year: '2026',
-    title: 'Leapfrog Student Partnership Program',
-    text: 'Took part in the student partnership program.',
-    more: 'Joined the program to learn from industry mentors and meet other students.',
-    photoNote: 'Group photo',
-    image: null,
-  },
-  {
-    id: 8,
-    tag: 'Leadership',
-    year: null,
-    title: 'Sachet Nari — Ambassador Program',
-    text: 'Gave the closing address after three months as an ambassador.',
-    more: 'Spoke at the closing event and shared what the three months taught me.',
-    photoNote: 'Closing address',
-    image: null,
-  },
-  {
-    id: 9,
-    tag: 'Teaching',
-    year: null,
-    title: 'React.js Session — Islington College',
-    text: 'Led a React.js session at Islington College Kathmandu.',
-    more: 'Taught the React.js basics to students and answered their questions live.',
-    photoNote: 'Teaching the session',
-    image: null,
-  },
+];
+
+/* ------------------------------------------------------------------ */
+/*  Falling sparks: 14 tiny dots. Add or remove lines to change   */
+/*  how many. x = left (%), size px, dur = fall time (s),            */
+/*  delay is negative so dots are already falling when page loads.   */
+/* ------------------------------------------------------------------ */
+
+const SPARKS = [
+  { x: 5, size: 2, dur: 15, delay: -2 },
+  { x: 12, size: 1.5, dur: 19, delay: -11 },
+  { x: 20, size: 2, dur: 16, delay: -6 },
+  { x: 29, size: 1.5, dur: 18, delay: -14 },
+  { x: 37, size: 2.5, dur: 14, delay: -9 },
+  { x: 46, size: 1.5, dur: 17, delay: -1 },
+  { x: 54, size: 2, dur: 19, delay: -16 },
+  { x: 62, size: 1.5, dur: 15, delay: -7 },
+  { x: 70, size: 2, dur: 18, delay: -12 },
+  { x: 77, size: 1.5, dur: 16, delay: -4 },
+  { x: 84, size: 2.5, dur: 14, delay: -10 },
+  { x: 90, size: 1.5, dur: 19, delay: -15 },
+  { x: 95, size: 2, dur: 17, delay: -5 },
+  { x: 98, size: 1.5, dur: 15, delay: -8 },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -631,6 +685,21 @@ export default function Achievements() {
   return (
     <section className="ag-section" aria-label="Achievements and social work">
       <style>{STYLES}</style>
+
+      <div className="ag-sparks" aria-hidden="true">
+        {SPARKS.map((sp, i) => (
+          <span
+            key={i}
+            className="ag-spark"
+            style={{
+              left: `${sp.x}%`,
+              '--size': `${sp.size}px`,
+              '--dur': `${sp.dur}s`,
+              '--delay': `${sp.delay}s`,
+            }}
+          />
+        ))}
+      </div>
 
       <header className="ag-header">
         <span className="ag-eyebrow">Recognition</span>
