@@ -5,7 +5,6 @@ import './App.css';
 import Header from './Header';
 import Home from './Home';
 import About from './About';
-import WhatIDo from './WhatIDo';
 import Experience from './Experience';
 import Achievements from './Achievements';
 import Project from './Project';
@@ -33,7 +32,6 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/expertise" element={<WhatIDo />} />
             <Route path="/experience" element={<Experience />} />
             <Route path="/achievements" element={<Achievements />} />
             <Route path="/projects" element={<Project />} />
