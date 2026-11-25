@@ -1,320 +1,248 @@
 import React, { useState } from 'react';
-import {
-  Mail,
-  Linkedin,
-  Github,
-  MessageCircle,
-  Send,
-  CheckCircle2,
-  Copy,
-  Clock,
-  Sparkles,
-  ChevronDown,
-  HelpCircle,
-  MapPin,
-  Calendar,
-} from 'lucide-react';
+import { Linkedin, Github, Copy, Check, ArrowUpRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-const FAQS = [
-  {
-    q: 'What types of roles or opportunities are you looking for?',
-    a: 'I am actively seeking roles as an AI Engineer, Junior Backend Developer (Python / FastAPI / Django), or Machine Learning Engineering Intern. I am also open to select freelance consulting projects for custom RAG pipelines or web applications.',
-  },
-  {
-    q: 'Are you available for remote work across international time zones?',
-    a: 'Yes! I am based in Kathmandu, Nepal (GMT+5:45) and have experience working remotely and asynchronously with global teams using Git, Slack, Discord, and project management boards.',
-  },
-  {
-    q: 'What is your core production tech stack?',
-    a: 'My primary language is Python (FastAPI, Django REST, PyTorch, Scikit-learn). For databases and persistence, I rely on PostgreSQL and Redis. For frontends, I work with React 19, Next.js, and modern CSS/Tailwind. For MLOps, I use Docker, Apache Airflow, and MLflow.',
-  },
-  {
-    q: 'Can you build end-to-end applications from scratch?',
-    a: 'Absolutely. As evidenced by my Grand Winner podium at TechSprint 2026 and multiple full-stack builds, I take ownership from problem definition and database schema modeling all the way to containerized deployment and automated monitoring.',
-  },
+const EMAIL = 'basnetsmriti62@gmail.com';
+
+const LINKS = [
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/smriti-basnet-a140ab329/', Icon: Linkedin },
+  { label: 'GitHub', href: 'https://github.com/Smritibasnet09', Icon: Github },
 ];
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
-  const [formSent, setFormSent] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-  const [openFaq, setOpenFaq] = useState(null);
 
-  const toggleFaq = (index) => {
-    setOpenFaq((prev) => (prev === index ? null : index));
-  };
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText('basnetsmriti62@gmail.com');
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+    } catch {
+      return; // clipboard blocked: the email is still visible on the page
+    }
     setCopied(true);
     confetti({
-      particleCount: 25,
-      spread: 55,
-      origin: { y: 0.6 },
-      colors: ['#c084fc', '#a855f7', '#ffffff'],
+      particleCount: 40,
+      spread: 70,
+      origin: { y: 0.65 },
+      colors: ['#c084fc', '#a855f7', '#ec4899', '#ffffff'],
     });
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email) return;
-
-    // Launch mailto fallback
-    const subject = encodeURIComponent(formData.subject || `Portfolio Inquiry from ${formData.name}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    );
-    window.open(`mailto:basnetsmriti62@gmail.com?subject=${subject}&body=${body}`, '_blank');
-
-    setFormSent(true);
-    confetti({
-      particleCount: 40,
-      spread: 75,
-      origin: { y: 0.7 },
-      colors: ['#c084fc', '#a855f7', '#ec4899', '#ffffff'],
-    });
-    setTimeout(() => {
-      setFormSent(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 4000);
-  };
-
   return (
-    <section className="contact-viewport-section" aria-label="Contact Smriti Basnet">
-      <div className="contact-ambient-glow" />
+    <section className="ct" aria-label="Contact Smriti Basnet">
+      <style>{styles}</style>
 
-      {/* Header */}
-      <div className="contact-header-center">
-        <div className="career-badge-pill">
-          <Mail size={13} className="career-badge-icon" />
-          <span>Get in Touch</span>
-        </div>
-        <h1 className="contact-main-title">
-          Let’s Build Something <span className="title-purple-gradient">Exceptional</span>
+      {/* Decorative orbit rings */}
+      <div className="ct-orbits" aria-hidden="true">
+        <i /><i /><i />
+      </div>
+
+      <div className="ct-content">
+        <span className="ct-status">
+          <i /> Open for opportunities
+        </span>
+
+        <h1 className="ct-title">
+          Let’s <span>connect.</span>
         </h1>
-        <p className="contact-subtext">
-          Whether you have an ambitious AI challenge, a full-stack engineering role, or a hackathon idea, my inbox is always open.
-        </p>
-      </div>
+        <p className="ct-text">Have a role or an idea? My inbox is always open.</p>
 
-      {/* Main Split Grid: Direct Methods vs Message Form */}
-      <div className="contact-layout-split">
-        {/* Left Column: Direct Methods, Availability & Response Time */}
-        <div className="contact-direct-stack">
-          {/* Email Card with Copy Trigger */}
-          <div className="contact-glass-card">
-            <div className="contact-icon-bubble">
-              <Mail size={22} />
-            </div>
-            <div className="contact-info-block">
-              <span className="contact-method-title">Primary Direct Email</span>
-              <a href="mailto:basnetsmriti62@gmail.com" className="contact-method-value">
-                basnetsmriti62@gmail.com
-              </a>
-            </div>
-            <button
-              onClick={handleCopyEmail}
-              className="contact-action-btn"
-              title="Copy email address"
-              aria-label="Copy email address"
-            >
-              {copied ? <CheckCircle2 size={18} className="text-emerald" /> : <Copy size={18} />}
-            </button>
-          </div>
-
-          {/* LinkedIn Card */}
-          <a
-            href="https://www.linkedin.com/in/smriti-basnet-a140ab329/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="contact-glass-card"
-          >
-            <div className="contact-icon-bubble">
-              <Linkedin size={22} />
-            </div>
-            <div className="contact-info-block">
-              <span className="contact-method-title">LinkedIn Network</span>
-              <span className="contact-method-value">smriti-basnet</span>
-            </div>
-            <span className="contact-arrow-badge">&rarr;</span>
-          </a>
-
-          {/* GitHub Card */}
-          <a
-            href="https://github.com/Smritibasnet09"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="contact-glass-card"
-          >
-            <div className="contact-icon-bubble">
-              <Github size={22} />
-            </div>
-            <div className="contact-info-block">
-              <span className="contact-method-title">GitHub Profile &amp; Repositories</span>
-              <span className="contact-method-value">Smritibasnet09</span>
-            </div>
-            <span className="contact-arrow-badge">&rarr;</span>
-          </a>
-
-          {/* WhatsApp Direct Chat */}
-          <a
-            href="https://wa.me/9779800000000"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="contact-glass-card"
-          >
-            <div className="contact-icon-bubble">
-              <MessageCircle size={22} />
-            </div>
-            <div className="contact-info-block">
-              <span className="contact-method-title">Direct WhatsApp Chat</span>
-              <span className="contact-method-value">Instant Messaging</span>
-            </div>
-            <span className="contact-arrow-badge">&rarr;</span>
-          </a>
-
-          {/* Status & Availability Banner */}
-          <div className="contact-status-banner">
-            <span className="status-ping-dot" />
-            <div>
-              <strong>Actively Open for Opportunities</strong>
-              <p style={{ margin: '0.2rem 0 0', fontSize: '0.78rem', color: '#9ca3af' }}>
-                Full-Time Engineering Roles, AI Internships &amp; Technical Consulting.
-              </p>
-            </div>
-          </div>
-
-          {/* Response SLA Note */}
-          <div className="contact-sla-badge">
-            <Clock size={15} className="text-purple" />
-            <span>Guaranteed Response: Typically within 12 to 24 hours.</span>
-          </div>
+        <div className="ct-mail">
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          <button type="button" onClick={copyEmail} aria-label="Copy email address">
+            {copied ? <Check size={16} /> : <Copy size={16} />}
+            <span aria-live="polite">{copied ? 'Copied' : 'Copy'}</span>
+          </button>
         </div>
 
-        {/* Right Column: Dispatch Message Form */}
-        <div className="contact-form-container">
-          <form onSubmit={handleSubmit} className="contact-glass-form">
-            <h2 className="form-heading">Send a Direct Message</h2>
-            <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-              Fill in your details below. Clicking submit will automatically prepare an email draft in your default client.
-            </p>
-
-            <div className="form-field-group">
-              <label htmlFor="name" className="form-label">
-                Your Name *
-              </label>
-              <input
-                id="name"
-                type="text"
-                required
-                placeholder="Alex Morgan"
-                className="form-input-text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              />
-            </div>
-
-            <div className="form-field-group">
-              <label htmlFor="email" className="form-label">
-                Email Address *
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                placeholder="alex@company.com"
-                className="form-input-text"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
-            </div>
-
-            <div className="form-field-group">
-              <label htmlFor="subject" className="form-label">
-                Subject
-              </label>
-              <input
-                id="subject"
-                type="text"
-                placeholder="AI Engineering Role / Collaboration"
-                className="form-input-text"
-                value={formData.subject}
-                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-              />
-            </div>
-
-            <div className="form-field-group">
-              <label htmlFor="message" className="form-label">
-                Your Message *
-              </label>
-              <textarea
-                id="message"
-                required
-                rows={5}
-                placeholder="Hi Smriti, I came across your portfolio and project builds, and I would love to discuss..."
-                className="form-input-textarea"
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              />
-            </div>
-
-            <button type="submit" className="form-submit-btn" disabled={formSent}>
-              {formSent ? (
-                <>
-                  <CheckCircle2 size={18} />
-                  <span>Opening Mail Client...</span>
-                </>
-              ) : (
-                <>
-                  <Send size={18} />
-                  <span>Dispatch Message</span>
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-      </div>
-
-      {/* Frequently Asked Questions (FAQ) Section */}
-      <div className="contact-faq-section">
-        <div className="academic-header">
-          <div className="career-badge-pill">
-            <HelpCircle size={13} className="career-badge-icon" />
-            <span>Common Inquiries</span>
-          </div>
-          <h2 className="academic-title">
-            Frequently Asked <span className="title-purple-gradient">Questions</span>
-          </h2>
-          <p className="academic-desc">
-            Quick answers regarding availability, tech stacks, and working preferences.
-          </p>
-        </div>
-
-        <div className="faq-accordion-stack">
-          {FAQS.map((faq, index) => {
-            const isOpen = openFaq === index;
-            return (
-              <div
-                key={index}
-                className={`faq-item-card ${isOpen ? 'is-open' : ''}`}
-                onClick={() => toggleFaq(index)}
-              >
-                <div className="faq-question-row">
-                  <h3 className="faq-question-text">{faq.q}</h3>
-                  <ChevronDown size={18} className={`faq-chevron ${isOpen ? 'rotated' : ''}`} />
-                </div>
-                {isOpen && (
-                  <div className="faq-answer-block">
-                    <p className="faq-answer-text">{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+        <div className="ct-links">
+          {LINKS.map(({ label, href, Icon }) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer">
+              <Icon size={17} /> {label} <ArrowUpRight className="ct-arrow" size={15} />
+            </a>
+          ))}
         </div>
       </div>
     </section>
   );
 }
+
+const styles = `
+/* Fills the screen so everything sits in the exact center */
+.ct {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 6rem 1rem;
+  text-align: center;
+}
+
+.ct-orbits {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+}
+.ct-orbits::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(640px, 100%);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: radial-gradient(closest-side, rgba(147, 51, 234, 0.28), rgba(219, 39, 119, 0.08) 55%, transparent);
+}
+.ct-orbits i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size);
+  height: var(--size);
+  translate: -50% -50%;
+  border: 1px solid rgba(192, 132, 252, var(--line));
+  border-radius: 50%;
+  animation: ct-spin var(--speed) linear infinite;
+}
+.ct-orbits i::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: calc(50% - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d8b4fe;
+  box-shadow: 0 0 16px 4px rgba(192, 132, 252, 0.7);
+}
+.ct-orbits i:nth-child(1) { --size: 520px; --line: 0.16; --speed: 18s; }
+.ct-orbits i:nth-child(2) { --size: 760px; --line: 0.1; --speed: 28s; animation-direction: reverse; }
+.ct-orbits i:nth-child(3) { --size: 1020px; --line: 0.06; --speed: 40s; }
+
+.ct-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 560px;
+}
+
+.ct-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.95rem;
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  border-radius: 99px;
+  background: rgba(52, 211, 153, 0.07);
+  font-size: 0.75rem;
+  color: #a7f3d0;
+}
+.ct-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  animation: ct-pulse 2s infinite;
+}
+
+.ct .ct-title {
+  margin: 1.25rem 0 0.6rem;
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.ct-title span {
+  background: linear-gradient(100deg, #c084fc, #f472b6, #c084fc);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ct-shine 5s linear infinite;
+}
+.ct .ct-text { margin: 0 0 2rem; font-size: 0.95rem; color: #a1a1aa; }
+
+/* Glass email pill */
+.ct-mail {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 100%;
+  padding: 0.4rem 0.4rem 0.4rem 1.4rem;
+  border: 1px solid rgba(192, 132, 252, 0.28);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px -18px rgba(168, 85, 247, 0.7);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.ct-mail:hover { border-color: #c084fc; box-shadow: 0 18px 48px -14px rgba(168, 85, 247, 0.85); }
+.ct .ct-mail a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #f3e8ff;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.ct-mail button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.15rem;
+  border: 0;
+  border-radius: 99px;
+  background: linear-gradient(100deg, #9333ea, #db2777);
+  color: #fff;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+.ct-mail button:hover { filter: brightness(1.15); }
+
+.ct-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.5rem; }
+.ct .ct-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.02);
+  color: #d4d4d8;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: transform 0.2s, border-color 0.2s, color 0.2s;
+}
+.ct .ct-links a:hover { transform: translateY(-3px); border-color: #c084fc; color: #fff; }
+.ct-arrow { opacity: 0.5; }
+
+.ct a:focus-visible,
+.ct button:focus-visible { outline: 2px solid #c084fc; outline-offset: 3px; }
+
+@media (max-width: 420px) {
+  .ct-mail { gap: 0.5rem; padding-left: 1rem; }
+  .ct .ct-mail a { font-size: 0.82rem; }
+  .ct-mail button span { display: none; }
+  .ct-mail button { padding: 0.65rem; }
+}
+
+@keyframes ct-spin { to { rotate: 360deg; } }
+@keyframes ct-shine { to { background-position: -200% center; } }
+@keyframes ct-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+  70%, 100% { box-shadow: 0 0 0 7px rgba(52, 211, 153, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ct-orbits i, .ct-title span, .ct-status i { animation: none; }
+}
+`;
